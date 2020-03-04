@@ -43,7 +43,8 @@ export const create = ({
   })
   // 设置工作区
   setContent({
-    className: classes[EClasses.CONTENT],
+    actions,
+    classes,
     editable: editable.toString(),
   })
   // 设置编辑器
