@@ -20,35 +20,15 @@ export const createContent = (tag: string) => {
 }
 
 // 设置工作区
-export const setContent = ({ actions, classes, editable }: any) => {
+export const setContent = ({ classes, editable }: any) => {
   ctx.content.className = classes[EClasses.CONTENT]
   ctx.content.contentEditable = editable
 
-  setContentListener(actions, classes)
-}
-
-// 键盘按下事件
-const onKeydown = (e: any) => {
-  if (e.key === 'Enter' && queryCommandValue(formatBlock) === 'blockquote') {
-    setTimeout(() => exec(formatBlock, `<div>`), 0)
-  }
-}
-
-// 键盘弹起事件
-const onKeyup = (e: Event, actions: Array<Action>, classes: Classes) => {
-  const { buttons } = getToolbarItems()
-
-  buttons.forEach(button => {
-    const key = button.getAttribute('key')
-    const action = getAction(actions, key)
-    button.classList[action.state() ? 'add' : 'remove'](
-      `${classes[EClasses.CONTENT]}--selected`
-    )
-  })
+  setContentListener(classes)
 }
 
 // 鼠标抬起事件
-const onMouseup = (e: Event, actions: Array<Action>, classes: Classes) => {
+const onMouseup = (e: Event, classes: Classes) => {
   const { buttons, selects } = getToolbarItems()
   const target = e.target as HTMLElement
 
@@ -64,7 +44,7 @@ const onMouseup = (e: Event, actions: Array<Action>, classes: Classes) => {
     )
   })
 
-  // 回显下拉框选中值
+  // 设置bold按钮禁/启用
   selects.forEach(select => {
     const key = select.getAttribute('key')
     if (key === 'heading') {
@@ -86,10 +66,15 @@ const onMouseup = (e: Event, actions: Array<Action>, classes: Classes) => {
 }
 
 // 输入事件
-const onInput = ({ target: firstChild }: Event) => {
+const onInput = (e: Event) => {
+  const { firstChild } = e.target as HTMLElement
+
+  // 无内容直接输入时插入的为文本节点,将其封装到div中
   if (firstChild && (firstChild as HTMLElement).nodeType === ENodeType.TEXT) {
     exec(formatBlock, `<div>`)
-  } else if (ctx.content.innerHTML === '<br>') {
+  } else if (ctx.content.innerHTML === '<div><br></div>') {
+    // 无内容回车时会插入两个<div><br></div>以实现换行,
+    // 当工作区域仅为一个<div><br></div>时则表示没有任何内容,需要手动清理
     ctx.content.innerHTML = ''
   }
 
@@ -97,12 +82,7 @@ const onInput = ({ target: firstChild }: Event) => {
 }
 
 // 设置工作区监听器
-export const setContentListener = (
-  actions: Array<Action>,
-  classes: Classes
-) => {
-  addEventListener(ctx.content, 'keydown', onKeydown)
-  addEventListener(ctx.content, 'keyup', e => onKeyup(e, actions, classes))
-  addEventListener(ctx.content, 'mouseup', e => onMouseup(e, actions, classes))
+export const setContentListener = (classes: Classes) => {
+  addEventListener(ctx.content, 'mouseup', e => onMouseup(e, classes))
   addEventListener(ctx.content, 'input', onInput)
 }
