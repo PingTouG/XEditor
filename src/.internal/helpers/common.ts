@@ -61,6 +61,11 @@ export const queryCommandState = (command: string) => {
   return document.queryCommandState(command)
 }
 
+// 查询命令在当前选区内的值
+export const queryCommandValue = (command: string) => {
+  return document.queryCommandValue(command)
+}
+
 // 查找元素
 export const queryElement = (selector: string) => {
   return document.querySelector(selector) as HTMLElement
