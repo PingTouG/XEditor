@@ -57,8 +57,26 @@ export const createToolbarItems = (
   )
 }
 
+// 获取工具栏中的按钮操作
+export const getToolbarItems = () => {
+  const tools = ctx.toolbar.children
+
+  const buttons = []
+  const selects = []
+
+  for (let i = 0; i < tools.length; i++) {
+    const tool = tools[i]
+
+    tool.nodeName === 'BUTTON' && buttons.push(tool)
+
+    tool.nodeName === 'SELECT' && selects.push(tool)
+  }
+
+  return { buttons, selects }
+}
+
 // 设置Bold按钮禁/启用
-const setBoldButtonDisabled = (isDiaabled: boolean) => {
+export const setBoldButtonDisabled = (isDiaabled: boolean) => {
   if (isDiaabled) {
     const buttons = document.querySelectorAll('.xeditor__button')
     buttons.forEach(button => {
@@ -146,22 +164,5 @@ export const setToolbarSelectListener = (
     ctx.content.focus()
   }
 
-  const contentMouseupHandler = (e: any) => {
-    // 鼠标当前所在内容的元素name
-    const nodeName = e.toElement.nodeName.toLowerCase()
-
-    for (let i = 0; i < tool.options.length; i++) {
-      const option = tool.options[i]
-      if (nodeName === option.value) {
-        option.selected = true
-        setBoldButtonDisabled(true)
-        break
-      } else {
-        setBoldButtonDisabled(false)
-      }
-    }
-  }
-
   addEventListener(tool, 'change', handler)
-  addEventListener(ctx.content, 'mouseup', contentMouseupHandler)
 }
