@@ -1,0 +1,71 @@
+$xeditor-border-color: rgba(0, 0, 0, 0.1) !default;
+$xeditor-toolbar-height: 40px;
+
+$xeditor-button-height: $xeditor-toolbar-height !default;
+$xeditor-button-width: $xeditor-toolbar-height !default;
+$xeditor-button-hover-color: #f0f0f0 !default;
+$xeditor-button-selected-color: #f6f6f6 !default;
+
+.xeditor {
+  border-radius: 4px;
+  border: 1px solid $xeditor-border-color;
+  box-sizing: border-box;
+
+  &__toolbar {
+    height: $xeditor-toolbar-height;
+    line-height: $xeditor-toolbar-height;
+    border-bottom: 1px solid $xeditor-border-color;
+    padding: 10px;
+  }
+
+  &__button,
+  &__select {
+    height: $xeditor-toolbar-height;
+    width: $xeditor-button-width;
+    background-color: transparent;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    outline: 0;
+    vertical-align: bottom;
+    margin: 0 1px;
+    box-sizing: content-box;
+
+    &:first-child {
+      margin-left: 0;
+    }
+
+    &:last-child {
+      margin-right: 0;
+    }
+
+    &:hover {
+      background-color: $xeditor-button-hover-color;
+    }
+
+    &--selected {
+      background-color: $xeditor-button-selected-color;
+    }
+
+    &--disabled {
+      cursor: not-allowed;
+      background-color: $xeditor-button-selected-color;
+
+      &:hover {
+        background-color: $xeditor-button-selected-color;
+      }
+    }
+  }
+
+  &__content {
+    position: relative;
+    box-sizing: border-box;
+    height: 100%;
+    padding: 10px;
+    overflow-y: auto;
+
+    &:focus {
+      outline: none;
+    }
+  }
+}
