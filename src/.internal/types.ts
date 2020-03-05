@@ -2,7 +2,7 @@ import { EClasses } from './enums'
 
 export interface Action {
   key: string
-  title?: string
+  title: string
   icon?: string
   children?: Array<Action>
   state?: () => boolean

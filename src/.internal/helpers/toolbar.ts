@@ -24,6 +24,7 @@ export const createButton = (action: Action, className: string) => {
 export const createSelect = (action: Action, className: string) => {
   const select = createElement('select') as HTMLSelectElement
   select.className = className
+  select.title = action.title
   select.setAttribute('key', action.key)
 
   action.children.forEach(child => {

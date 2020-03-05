@@ -95,6 +95,7 @@ export const defaultActions: {
   },
   heading: {
     key: 'heading',
+    title: 'heading',
     children: [
       {
         key: 'p',
