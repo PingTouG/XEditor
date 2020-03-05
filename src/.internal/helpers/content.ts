@@ -75,9 +75,13 @@ const onInput = (e: Event) => {
   // 无内容直接输入时插入的为文本节点,将其封装到div中
   if (firstChild && (firstChild as HTMLElement).nodeType === ENodeType.TEXT) {
     exec(formatBlock, `<div>`)
-  } else if (ctx.content.innerHTML === '<div><br></div>') {
+  } else if (
+    ctx.content.innerHTML === '<div><br></div>' ||
+    ctx.content.innerHTML === '<br>'
+  ) {
     // 无内容回车时会插入两个<div><br></div>以实现换行,
     // 当工作区域仅为一个<div><br></div>时则表示没有任何内容,需要手动清理
+    // 当删除所有内容时，还会出现一个<br>，需要手动清理
     ctx.content.innerHTML = ''
   }
 
