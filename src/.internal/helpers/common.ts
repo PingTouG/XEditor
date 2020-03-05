@@ -70,3 +70,57 @@ export const queryCommandValue = (command: string) => {
 export const queryElement = (selector: string) => {
   return document.querySelector(selector) as HTMLElement
 }
+
+// 反转颜色值
+export const reverseColor = (color: string) => {
+  const oldValue = Number(`0x${color.replace(/#/g, '')}`)
+  const newValue = `000000${(0xffffff - oldValue).toString(16)}`
+  return `#${newValue.substring(newValue.length - 6, newValue.length)}`
+}
+
+export const setColorPicker = (key: string) => {
+  const colorPicker = queryElement(`#xeditor__${key}`) as HTMLElement
+
+  colorPicker.onchange = (e: Event) => {
+    const target = e.target as HTMLInputElement
+    setColorPickerButtonStyle(key, '#000000', target.value)
+
+    exec(key, target.value)
+  }
+
+  colorPicker.click()
+}
+
+export const setColorPickerButtonStyle = (
+  key: string,
+  color: string,
+  bgColor: string
+) => {
+  const label = queryElement(`#xeditor__${key}-label`)
+  label.style.display = 'inline-block'
+  label.style.width = '80%'
+  label.style.height = '80%'
+  label.style.lineHeight = '2.5'
+  label.style.borderRadius = '4px'
+
+  let labelColor = color
+  let labelBgColor = 'transparent'
+
+  switch (bgColor) {
+    case '#ffffff':
+    case 'rgb(255, 255, 255)':
+      labelBgColor = 'transparent'
+      labelColor = '#000000'
+      break
+    case '#000000':
+    case 'rgb(0, 0, 0)':
+      labelColor = '#ffffff'
+      labelBgColor = bgColor
+      break
+    default:
+      labelBgColor = bgColor
+  }
+
+  label.style.color = labelColor
+  label.style.backgroundColor = labelBgColor
+}

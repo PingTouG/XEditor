@@ -1,7 +1,15 @@
 import { Action } from '../types'
-import { queryCommandState, exec } from '../helpers/index'
+import {
+  queryCommandState,
+  exec,
+  queryElement,
+  reverseColor,
+  setColorPicker,
+} from '../helpers/index'
 
 const formatBlock = 'formatBlock'
+const backColor = 'backColor'
+const foreColor = 'foreColor'
 
 export const defaultActions: {
   [prop: string]: Action
@@ -16,23 +24,43 @@ export const defaultActions: {
   italic: {
     key: 'italic',
     title: 'Italic',
-    icon: '<i>I</i>',
+    icon: '<b><i>I</i><b>',
     state: () => queryCommandState('italic'),
     exec: () => exec('italic'),
   },
   underline: {
     key: 'underline',
     title: 'Underline',
-    icon: '<u>U</u>',
+    icon: '<b><u>U</u><b>',
     state: () => queryCommandState('underline'),
     exec: () => exec('underline'),
   },
   strikethrough: {
     key: 'strikethrough',
     title: 'Strike-through',
-    icon: '<strike>S</strike>',
+    icon: '<b><strike>S</strike><b>',
     state: () => queryCommandState('strikeThrough'),
     exec: () => exec('strikeThrough'),
+  },
+  backColor: {
+    key: backColor,
+    title: backColor,
+    icon: `<b id="xeditor__${backColor}-label">BG</b><input id="xeditor__${backColor}"  type="color" hidden/>`,
+    state: () => false,
+    exec: () => {
+      setColorPicker(backColor)
+      return true
+    },
+  },
+  fontColor: {
+    key: foreColor,
+    title: foreColor,
+    icon: `<b id="xeditor__${foreColor}-label">FC</b><input id="xeditor__${foreColor}"  type="color" hidden/>`,
+    state: () => false,
+    exec: () => {
+      setColorPicker(foreColor)
+      return true
+    },
   },
   heading: {
     key: 'heading',

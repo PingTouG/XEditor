@@ -7,10 +7,10 @@ import {
   queryCommandValue,
   getToolbarItems,
   setButtonSelected,
+  setColorPickerButtonStyle,
 } from './index'
 import { ENodeType, EClasses } from '../enums'
 import { Action, Classes } from '../types'
-import { getAction } from './common'
 
 const formatBlock = 'formatBlock'
 
@@ -35,6 +35,10 @@ const onMouseup = (e: Event, classes: Classes) => {
   // 回显按钮高亮
   buttons.forEach(button => {
     const key = button.getAttribute('key')
+
+    if (key === 'backColor' || key === 'foreColor') {
+      setColorPickerButtonStyle(key, '#000000', queryCommandValue(key))
+    }
 
     setButtonSelected(
       button,
