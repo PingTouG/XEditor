@@ -31,10 +31,6 @@ export const setContent = ({ classes, editable }: any) => {
 // 鼠标抬起事件
 const onMouseup = (e: Event, classes: Classes) => {
   const { buttons, selects } = getToolbarItems()
-  const target = e.target as HTMLElement
-
-  // 鼠标当前所在内容的元素name
-  const nodeName = target.nodeName.toLowerCase()
 
   // 回显按钮高亮
   buttons.forEach(button => {
@@ -47,29 +43,32 @@ const onMouseup = (e: Event, classes: Classes) => {
     )
   })
 
-  // 设置bold按钮禁/启用
+  // 回显heading选项
   selects.forEach(select => {
     const key = select.getAttribute('key')
     if (key === 'heading') {
       const tool = select as HTMLSelectElement
 
+      // 选中option下标
+      let selectedIndex = 0
+
       for (let i = 0; i < tool.options.length; i++) {
         const option = tool.options[i]
 
-        if (nodeName === option.value) {
-          option.selected = true
-          setBoldButtonDisabled(true, classes[EClasses.BUTTON])
+        if (queryCommandValue(formatBlock) === option.value) {
+          selectedIndex = i
           break
-        } else {
-          setBoldButtonDisabled(false, classes[EClasses.BUTTON])
         }
       }
+
+      setBoldButtonDisabled(selectedIndex !== 0, classes[EClasses.BUTTON])
+      tool.selectedIndex = selectedIndex
     }
   })
 }
 
 // 输入事件
-const onInput = (e: Event) => {
+const onInput = (e: InputEvent) => {
   const { firstChild } = e.target as HTMLElement
 
   // 无内容直接输入时插入的为文本节点,将其封装到div中
@@ -88,8 +87,26 @@ const onInput = (e: Event) => {
   // settings.onChange(content.innerHTML)
 }
 
+const onKeyup = (e: KeyboardEvent, classes: Classes) => {
+  if (e.key === 'Enter') {
+    const { selects } = getToolbarItems()
+
+    const select = selects.filter(
+      item => item.getAttribute('key') === 'heading'
+    )
+    if (select.length) {
+      const heading = select[0] as HTMLSelectElement
+      heading.options[0].selected = true
+      setBoldButtonDisabled(false, classes[EClasses.BUTTON])
+    }
+  }
+}
+
 // 设置工作区监听器
 export const setContentListener = (classes: Classes) => {
   addEventListener(ctx.content, 'mouseup', e => onMouseup(e, classes))
   addEventListener(ctx.content, 'input', onInput)
+  addEventListener(ctx.content, 'keyup', e =>
+    onKeyup(e as KeyboardEvent, classes)
+  )
 }

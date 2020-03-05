@@ -160,7 +160,11 @@ export const setToolbarListener = (
       setToolbarButtonListener(action, classes, tool)
       break
     case 'SELECT':
-      setToolbarSelectListener(action.children, tool as HTMLSelectElement)
+      setToolbarSelectListener(
+        action.children,
+        classes,
+        tool as HTMLSelectElement
+      )
       break
   }
 }
@@ -168,11 +172,13 @@ export const setToolbarListener = (
 // 设置工具栏Select元素监听器
 export const setToolbarSelectListener = (
   actions: Array<Action>,
+  classes: Classes,
   tool: HTMLSelectElement
 ) => {
   const handler = (e: Event) => {
     const target = e.target as HTMLSelectElement
     const action = getAction(actions, target.value)
+    setBoldButtonDisabled(target.selectedIndex !== 0, classes[EClasses.BUTTON])
     action.exec()
     ctx.content.focus()
   }
