@@ -6,7 +6,7 @@ export interface Action {
   icon?: string
   children?: Array<Action>
   state?: () => boolean
-  exec?: () => boolean
+  exec?: () => boolean | void
 }
 
 export interface Classes {
