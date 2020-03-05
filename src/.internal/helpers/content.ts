@@ -6,6 +6,7 @@ import {
   exec,
   queryCommandValue,
   getToolbarItems,
+  setButtonSelected,
 } from './index'
 import { ENodeType, EClasses } from '../enums'
 import { Action, Classes } from '../types'
@@ -39,8 +40,10 @@ const onMouseup = (e: Event, classes: Classes) => {
   buttons.forEach(button => {
     const key = button.getAttribute('key')
 
-    button.classList[queryCommandValue(key) === 'true' ? 'add' : 'remove'](
-      `${classes[EClasses.BUTTON]}--selected`
+    setButtonSelected(
+      button,
+      classes[EClasses.BUTTON],
+      queryCommandValue(key) === 'true'
     )
   })
 
@@ -55,10 +58,10 @@ const onMouseup = (e: Event, classes: Classes) => {
 
         if (nodeName === option.value) {
           option.selected = true
-          setBoldButtonDisabled(true)
+          setBoldButtonDisabled(true, classes[EClasses.BUTTON])
           break
         } else {
-          setBoldButtonDisabled(false)
+          setBoldButtonDisabled(false, classes[EClasses.BUTTON])
         }
       }
     }

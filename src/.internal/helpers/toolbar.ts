@@ -57,7 +57,7 @@ export const createToolbarItems = (
   )
 }
 
-// 获取工具栏中的按钮操作
+// 获取工具栏中的工具
 export const getToolbarItems = () => {
   const tools = ctx.toolbar.children
 
@@ -76,22 +76,36 @@ export const getToolbarItems = () => {
 }
 
 // 设置Bold按钮禁/启用
-export const setBoldButtonDisabled = (isDiaabled: boolean) => {
+export const setBoldButtonDisabled = (
+  isDiaabled: boolean,
+  className: string
+) => {
   if (isDiaabled) {
     const buttons = document.querySelectorAll('.xeditor__button')
     buttons.forEach(button => {
       if (button.getAttribute('title') === 'Bold') {
         button.setAttribute('disabled', 'disabled')
-        button.classList.remove('xeditor__button--selected')
-        button.classList.add('xeditor__button--disabled')
+        button.classList.remove(`${className}--selected`)
+        button.classList.add(`${className}--disabled`)
       }
     })
   } else {
-    const button = document.querySelector('.xeditor__button--disabled')
+    const button = document.querySelector(`.${className}--disabled`)
     if (button && button.getAttribute('title') === 'Bold') {
-      button.classList.remove('xeditor__button--disabled')
+      button.classList.remove(`${className}--disabled`)
     }
   }
+}
+
+// 设置按钮是否选中
+export const setButtonSelected = (
+  button: Element,
+  className: string,
+  isSelected: boolean
+) => {
+  return button.classList[isSelected ? 'add' : 'remove'](
+    `${className}--selected`
+  )
 }
 
 // 设置工具栏
@@ -124,9 +138,8 @@ export const setToolbarButtonListener = (
   const handler = () => {
     action.exec()
     ctx.content.focus()
-    tool.classList[action.state() ? 'add' : 'remove'](
-      `${buttonClassName}--selected`
-    )
+
+    setButtonSelected(tool, buttonClassName, action.state())
   }
   addEventListener(tool, 'click', handler)
 }
