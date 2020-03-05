@@ -139,7 +139,7 @@ export const setToolbarButtonListener = (
     action.exec()
     ctx.content.focus()
 
-    setButtonSelected(tool, buttonClassName, action.state())
+    setButtonSelected(tool, buttonClassName, action.state && action.state())
   }
   addEventListener(tool, 'click', handler)
 }
