@@ -1,11 +1,5 @@
 import { Action } from '../types'
-import {
-  queryCommandState,
-  exec,
-  queryElement,
-  reverseColor,
-  setColorPicker,
-} from '../helpers/index'
+import { queryCommandState, exec, setColorPicker } from '../helpers/index'
 
 const formatBlock = 'formatBlock'
 const backColor = 'backColor'
@@ -47,20 +41,57 @@ export const defaultActions: {
     title: backColor,
     icon: `<b id="xeditor__${backColor}-label">BG</b><input id="xeditor__${backColor}"  type="color" hidden/>`,
     state: () => false,
-    exec: () => {
-      setColorPicker(backColor)
-      return true
-    },
+    exec: () => setColorPicker(backColor),
   },
   fontColor: {
     key: foreColor,
     title: foreColor,
     icon: `<b id="xeditor__${foreColor}-label">FC</b><input id="xeditor__${foreColor}"  type="color" hidden/>`,
     state: () => false,
+    exec: () => setColorPicker(foreColor),
+  },
+  superscript: {
+    key: 'superscript',
+    title: 'superscript',
+    icon: '<b>X<sup>z</sup><b>',
+    state: () => queryCommandState('superscript'),
+    exec: () => exec('superscript'),
+  },
+  subscript: {
+    key: 'subscript',
+    title: 'subscript',
+    icon: '<b>X<sub>z</sub><b>',
+    state: () => queryCommandState('subscript'),
+    exec: () => exec('subscript'),
+  },
+  insertUnorderedList: {
+    key: 'insertUnorderedList',
+    title: 'insertUnorderedList',
+    icon: '<b>LI</b>',
+    state: () => queryCommandState('insertUnorderedList'),
+    exec: () => exec('insertUnorderedList'),
+  },
+  insertOrderedList: {
+    key: 'insertOrderedList',
+    title: 'insertOrderedList',
+    icon: '<b>OL</b>',
+    state: () => queryCommandState('insertOrderedList'),
+    exec: () => exec('insertOrderedList'),
+  },
+  insertImage: {
+    key: 'insertImage',
+    title: 'insertImage',
+    icon: '&#128247;',
     exec: () => {
-      setColorPicker(foreColor)
-      return true
+      const url = window.prompt('Enter the image URL')
+      if (url) exec('insertImage', url)
     },
+  },
+  code: {
+    key: 'code',
+    title: 'code',
+    icon: '&lt;/&gt;',
+    exec: () => exec(formatBlock, '<pre>'),
   },
   heading: {
     key: 'heading',
@@ -69,7 +100,7 @@ export const defaultActions: {
         key: 'p',
         icon: '<b>P</b>',
         title: 'paragraph',
-        exec: () => exec(formatBlock, '<p>'),
+        exec: () => exec(formatBlock, '<div>'),
       },
       {
         key: 'h1',
