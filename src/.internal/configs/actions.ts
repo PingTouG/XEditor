@@ -93,6 +93,42 @@ export const defaultActions: {
     icon: '&lt;/&gt;',
     exec: () => exec(formatBlock, '<pre>'),
   },
+  removeFormat: {
+    key: 'removeFormat',
+    title: 'removeFormat',
+    icon: '<b>RF</b>',
+    exec: () => exec('removeFormat'),
+  },
+  redo: {
+    key: 'redo',
+    title: 'redo',
+    icon: '<b>REDO</b>',
+    exec: () => exec('redo'),
+  },
+  text: {
+    key: 'text-align',
+    title: 'text align',
+    children: [
+      {
+        key: 'justifyLeft',
+        title: 'justifyLeft',
+        icon: '<b>←</b>',
+        exec: () => exec('justifyLeft'),
+      },
+      {
+        key: 'justifyCenter',
+        title: 'justifyCenter',
+        icon: '<b>↔</b>',
+        exec: () => exec('justifyCenter'),
+      },
+      {
+        key: 'justifyRight',
+        title: 'justifyRight',
+        icon: '<b>→</b>',
+        exec: () => exec('justifyRight'),
+      },
+    ],
+  },
   heading: {
     key: 'heading',
     title: 'heading',

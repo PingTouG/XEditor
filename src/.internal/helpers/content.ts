@@ -50,23 +50,34 @@ const onMouseup = (e: Event, classes: Classes) => {
   // 回显heading选项
   selects.forEach(select => {
     const key = select.getAttribute('key')
-    if (key === 'heading') {
-      const tool = select as HTMLSelectElement
+    const tool = select as HTMLSelectElement
+    // 选中option下标
+    let selectedIndex = 0
 
-      // 选中option下标
-      let selectedIndex = 0
+    switch (key) {
+      case 'heading':
+        for (let i = 0; i < tool.options.length; i++) {
+          const option = tool.options[i]
 
-      for (let i = 0; i < tool.options.length; i++) {
-        const option = tool.options[i]
-
-        if (queryCommandValue(formatBlock) === option.value) {
-          selectedIndex = i
-          break
+          if (queryCommandValue(formatBlock) === option.value) {
+            selectedIndex = i
+            break
+          }
         }
-      }
 
-      setBoldButtonDisabled(selectedIndex !== 0, classes[EClasses.BUTTON])
-      tool.selectedIndex = selectedIndex
+        setBoldButtonDisabled(selectedIndex !== 0, classes[EClasses.BUTTON])
+        tool.selectedIndex = selectedIndex
+        break
+      case 'text-align':
+        for (let i = 0; i < tool.options.length; i++) {
+          const optionKey = tool.options[i].getAttribute('key')
+
+          if (queryCommandValue(optionKey) === 'true') {
+            tool.selectedIndex = i
+            break
+          }
+        }
+        break
     }
   })
 }
