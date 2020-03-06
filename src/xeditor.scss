@@ -12,7 +12,7 @@ $xeditor-button-selected-color: #f6f6f6 !default;
   box-sizing: border-box;
 
   &__toolbar {
-    height: $xeditor-toolbar-height;
+    min-height: $xeditor-toolbar-height;
     line-height: $xeditor-toolbar-height;
     border-bottom: 1px solid $xeditor-border-color;
     padding: 10px;
@@ -32,7 +32,7 @@ $xeditor-button-selected-color: #f6f6f6 !default;
     cursor: pointer;
     outline: 0;
     vertical-align: bottom;
-    margin: 0 1px;
+    margin: 0 1px 5px 1px;
     box-sizing: content-box;
 
     &:first-child {
@@ -59,6 +59,10 @@ $xeditor-button-selected-color: #f6f6f6 !default;
         background-color: $xeditor-button-selected-color;
       }
     }
+  }
+
+  &__select {
+    min-width: $xeditor-button-width + 12;
   }
 
   &__content {
