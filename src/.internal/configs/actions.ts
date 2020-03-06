@@ -1,5 +1,10 @@
 import { Action } from '../types'
-import { queryCommandState, exec, setColorPicker } from '../helpers/index'
+import {
+  queryCommandState,
+  exec,
+  setColorPicker,
+  insertVideo,
+} from '../helpers/index'
 
 const formatBlock = 'formatBlock'
 const backColor = 'backColor'
@@ -85,6 +90,15 @@ export const defaultActions: {
     exec: () => {
       const url = window.prompt('Enter the image URL')
       if (url) exec('insertImage', url)
+    },
+  },
+  insertVideo: {
+    key: 'insertVideo',
+    title: 'insertVideo',
+    icon: '<b>VIODE</b>',
+    exec: () => {
+      const url = window.prompt('Enter the video URL')
+      if (url) insertVideo(url)
     },
   },
   code: {

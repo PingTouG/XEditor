@@ -76,6 +76,26 @@ export const getToolbarItems = () => {
   return { buttons, selects }
 }
 
+// 插入视频
+export const insertVideo = (url: string) => {
+  const ieDoc = document as any
+
+  if (window.getSelection) {
+    const selection = window.getSelection()
+
+    if (selection.getRangeAt && selection.rangeCount) {
+      let range = selection.getRangeAt(0)
+      const video = document.createElement('iframe')
+      video.setAttribute('type', 'video')
+      video.src = url
+      range.insertNode(video)
+    }
+  } else if (ieDoc.selection && ieDoc.selection.type != 'Control') {
+    const html = `<iframe src="${url}" type="video"></iframe>`
+    ieDoc.selection.createRange().pasteHTML(html)
+  }
+}
+
 // 设置Bold按钮禁/启用
 export const setBoldButtonDisabled = (
   isDiaabled: boolean,
