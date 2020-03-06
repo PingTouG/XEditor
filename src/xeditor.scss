@@ -21,7 +21,11 @@ $xeditor-button-selected-color: #f6f6f6 !default;
   &__button,
   &__select {
     height: $xeditor-toolbar-height;
-    width: $xeditor-button-width;
+    min-width: $xeditor-button-width;
+    max-width: $xeditor-button-width * 1.5;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
     background-color: transparent;
     border: none;
     border-radius: 4px;
