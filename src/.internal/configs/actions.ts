@@ -95,7 +95,7 @@ export const defaultActions: {
   insertVideo: {
     key: 'insertVideo',
     title: 'insertVideo',
-    icon: '<b>VIODE</b>',
+    icon: '<b>VIDEO</b>',
     exec: () => {
       const url = window.prompt('Enter the video URL')
       if (url) insertVideo(url)
