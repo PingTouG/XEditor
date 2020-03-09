@@ -21,11 +21,5 @@ module.exports = {
     resolve: {
       extensions: ['.ts', '.js'],
     },
-    output: {
-      path: resolve('../dist'),
-      filename: 'xeditor.js',
-      library: 'xeditor',
-      libraryTarget: 'umd',
-    },
   },
 }
